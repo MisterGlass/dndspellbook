@@ -9,7 +9,7 @@ import { fileURLToPath } from 'url'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const OUT_PATH = join(__dirname, '..', 'public', 'spells.json')
 const BASE = 'https://api.open5e.com/v2/spells'
-const SRD_SLUG = 'wotc-srd'
+const SRD_SLUG = 'srd-2014' // System Reference Document 5.1 (use srd-2024 for SRD 5.2)
 
 async function fetchAllSpells() {
   const spells = []

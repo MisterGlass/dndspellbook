@@ -20,7 +20,7 @@ Open this folder in a dev container (VS Code/Cursor: **Dev Containers: Reopen in
 - **`npm run dev`** – Start dev server
 - **`npm run build`** – Fetch spells (if needed) and build for production (output in `dist/`)
 - **`npm run preview`** – Preview production build locally
-- **`npm run fetch-spells`** – Update `public/spells.json` from the Open5e API (SRD only)
+- **`npm run fetch-spells`** – Update `public/spells.json` from the Open5e API (SRD 5.1)
 
 ## Publish as a static website
 
