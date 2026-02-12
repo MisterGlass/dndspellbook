@@ -35,13 +35,19 @@ function normalizeSlugForMatch(slug) {
 function getMySpells() {
   const slugSet = new Set(mySpellSlugs.map((s) => String(s).toLowerCase().trim()).filter(Boolean))
   const seen = new Set()
-  return spells.filter((s) => {
+  const list = spells.filter((s) => {
     const slug = getSpellSlug(s)
     const normalized = normalizeSlugForMatch(slug)
     if (!slugSet.has(slug) && !slugSet.has(normalized)) return false
     if (seen.has(normalized)) return false
     seen.add(normalized)
     return true
+  })
+  return list.sort((a, b) => {
+    const levelA = Number(a.level) || 0
+    const levelB = Number(b.level) || 0
+    if (levelA !== levelB) return levelA - levelB
+    return (a.name || '').localeCompare(b.name || '', undefined, { sensitivity: 'base' })
   })
 }
 
