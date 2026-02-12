@@ -4,9 +4,12 @@
  * Slugs are the spell identifier in the URL (lowercase, hyphenated name or API key).
  */
 export default [
-  'fireball',
-  'magic-missile',
-  'shield',
-  'counterspell',
-  'healing-word',
+  'guidance',
+  'sacred-flame',
+  'command',
+  'detect-magic',
+  'divine-favor',
+  'guiding-bolt',
+  'heroism',
+  'searing-smite',
 ]

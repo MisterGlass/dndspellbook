@@ -7,6 +7,7 @@ const SCHOOLS = ['Abjuration', 'Conjuration', 'Divination', 'Enchantment', 'Evoc
 let spells = []
 let loading = true
 let error = null
+let currentRoute = null
 
 function slugify(str) {
   return String(str)
@@ -26,9 +27,9 @@ function getSpellBySlug(slug) {
   return spells.find((s) => getSpellSlug(s) === slug)
 }
 
-// Strip document prefix from API keys (e.g. srd_magic-missile -> magic-missile) so my-spells list can use simple names
+// Strip document prefix from API keys (e.g. srd_magic-missile -> magic-missile, srd-2024_searing-smite -> searing-smite)
 function normalizeSlugForMatch(slug) {
-  return slug.replace(/^[a-z0-9]+[-_]/i, '')
+  return slug.replace(/^[\w-]+_/, '')
 }
 
 function getMySpells() {
@@ -271,10 +272,60 @@ function syncFiltersToHash(search, level, school, classFilter) {
   window.location.hash = 'spells' + (qs ? '?' + qs : '')
 }
 
+function updateSpellsViewOnly(route) {
+  const filtered = applyFilters(spells, route.search, route.level, route.school, route.class)
+  const listHTML =
+    filtered.length > 0
+      ? filtered
+          .map(
+            (s) =>
+              `<li><a href="#spell/${getSpellSlug(s)}" class="spell-card" data-spell-slug="${escapeHtml(getSpellSlug(s))}">
+                    <span class="spell-name">${escapeHtml(s.name)}</span>
+                    <span class="spell-meta">${LEVELS[s.level] ?? s.level} · ${escapeHtml(getSchool(s) || '—')}</span>
+                  </a></li>`
+          )
+          .join('')
+      : '<li class="empty">No spells match your filters.</li>'
+  const summaryText =
+    filtered.length === spells.length ? '' : `Showing ${filtered.length} of ${spells.length} spells.`
+  const listEl = document.querySelector('.view-spells .spell-list')
+  const summaryEl = document.querySelector('.view-spells .filter-summary')
+  if (listEl) listEl.innerHTML = listHTML
+  if (summaryEl) {
+    if (summaryText) summaryEl.textContent = summaryText
+    else summaryEl.remove()
+  } else if (summaryText) {
+    const p = document.createElement('p')
+    p.className = 'filter-summary'
+    p.textContent = summaryText
+    const view = document.querySelector('.view-spells')
+    if (view && listEl) view.insertBefore(p, listEl)
+  }
+  const searchEl = document.getElementById('search')
+  const levelEl = document.getElementById('filter-level')
+  const schoolEl = document.getElementById('filter-school')
+  const classEl = document.getElementById('filter-class')
+  if (searchEl && searchEl.value !== route.search) searchEl.value = route.search
+  if (levelEl && levelEl.value !== route.level) levelEl.value = route.level
+  if (schoolEl && schoolEl.value !== route.school) schoolEl.value = route.school
+  if (classEl && classEl.value !== route.class) classEl.value = route.class
+}
+
 function render() {
   const route = getRoute()
   const app = document.querySelector('#app')
   if (!app) return
+
+  if (
+    !loading &&
+    !error &&
+    currentRoute?.view === 'spells' &&
+    route.view === 'spells'
+  ) {
+    updateSpellsViewOnly(route)
+    currentRoute = route
+    return
+  }
 
   let main = ''
   if (loading) {
@@ -309,6 +360,7 @@ function render() {
   }
 
   app.innerHTML = main
+  currentRoute = route
 
   const backEl = app.querySelector('[data-back]')
   if (backEl) {
