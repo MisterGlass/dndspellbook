@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+
+# Build output (rebuilt by CI or npm run build)
+dist/
+
+# Local env / editor
+.env
+.env.*
+*.log
+.DS_Store
+
+# Vite
+.vite/

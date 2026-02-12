@@ -1,0 +1,11 @@
+{
+  "name": "Spellbook (Node)",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:18",
+  "forwardPorts": [5173],
+  "postCreateCommand": "npm install && npm run fetch-spells",
+  "customizations": {
+    "vscode": {
+      "extensions": []
+    }
+  }
+}

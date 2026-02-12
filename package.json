@@ -1,0 +1,15 @@
+{
+  "name": "spellbook",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run fetch-spells && vite build",
+    "preview": "vite preview",
+    "fetch-spells": "node scripts/fetch-spells.js"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0"
+  }
+}

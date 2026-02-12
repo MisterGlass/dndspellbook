@@ -1,0 +1,17 @@
+{
+  "name": "Spellbook – D&D 5e",
+  "short_name": "Spellbook",
+  "description": "D&D 5e SRD spell reference",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#1a1a2e",
+  "theme_color": "#16213e",
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

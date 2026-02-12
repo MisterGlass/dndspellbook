@@ -1,0 +1,2 @@
+# Normalize line endings to LF so CRLF warnings go away
+* text=auto eol=lf
